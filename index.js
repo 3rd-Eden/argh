@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * Argv is a extremely light weight options parse for Node.js it's been build
- * for just one single purpose, parsing arguments. It does nothing more then
+ * Argv is a extremely light weight options parse for Node.js it's been built
+ * for just one single purpose, parsing arguments. It does nothing more than
  * that.
  *
- * @param {Array} argv The arguments that needs to parse, defaults to process.argv
+ * @param {Array} argv The arguments that need to be parsed, defaults to process.argv
  * @returns {Object} Parsed arguments.
  */
 function parse(argv) {

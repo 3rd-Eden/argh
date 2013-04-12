@@ -1,12 +1,12 @@
 # argh!
 
-`argh` is a extremely light weight options or `process.argv` parser for node.js.
+`argh` is an extremely light weight options or `process.argv` parser for node.js.
 It only includes the bare minimal to parse options. It's not a full blown cli
-library, but it can be used as dependency of a cli library to do all the heavy
+library, but it can be used as a dependency of a cli library to do all the heavy
 lifting.
 
-`argh` was born out of rage, every cli library that we've found did more then
-they advertised and added unneeded bloat to what we were trying to achieve.. and
+`argh` was born out of rage, every cli library that we've found did more than
+they advertised and added unneeded bloat to what we were trying to achieve... and
 that was argument parsing. Tiny modules should only focus on one thing and do
 that one thing really well.
 
@@ -39,13 +39,13 @@ console.log(argh(process.argv));
 - `--no-arg`, `--disable-arg` or `-no-a` Is transformed to a boolean (false)
 - `--foo bar`, `--foo="bar"`, `--foo='bar'` or `--foo=bar` Is all transformed
   to key / value pairs. Where `foo` is the key and `bar` the value
-- `--port 1111` Is automatically transforms the string 1111 in a number
-- `--beer true` As you might have guessed it, it's transformed in to a boolean
+- `--port 1111` Automatically transforms the string 1111 in a number
+- `--beer true` As you might have guessed it, it's transformed into a boolean
 - `--` Can be used as an indicator to stop parsing arguments.
 
 ### Examples
 
-Everybody likes examples, lets assume that following code is stored as `parse.js`:
+Everybody likes examples, let's assume that the following code is stored as `parse.js`:
 
 ```js
 var argv = require('argh').argv;

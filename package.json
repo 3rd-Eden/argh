@@ -1,0 +1,33 @@
+{
+  "name": "argh",
+  "version": "0.0.0",
+  "description": "light weight option/argv parser for node, it only parses options, nothing more then that.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha $(find test -name '*.test.js')"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:observing/argh.git"
+  },
+  "keywords": [
+    "argument",
+    "args",
+    "option",
+    "parser",
+    "cli",
+    "argv",
+    "options",
+    "command",
+    "command-line"
+  ],
+  "author": "Arnout Kazemier <opensource@observe.it>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "1.5.x",
+    "mocha": "1.9.x"
+  }
+}

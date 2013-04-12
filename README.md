@@ -1,5 +1,7 @@
 # argh!
 
+[![Build Status](https://travis-ci.org/observing/argh.png?branch=master)](https://travis-ci.org/observing/argh)
+
 `argh` is an extremely light weight options or `process.argv` parser for node.js.
 It only includes the bare minimal to parse options. It's not a full blown cli
 library, but it can be used as a dependency of a cli library to do all the heavy

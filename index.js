@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Argv is a extremely light weight options parse for Node.js it's been built
+ * Argv is a extremely light weight options parser for Node.js it's been built
  * for just one single purpose, parsing arguments. It does nothing more than
  * that.
  *

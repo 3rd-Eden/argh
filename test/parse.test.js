@@ -86,6 +86,20 @@ describe('argh', function () {
     expect(args.argv).to.deep.equal(['args', 'lol']);
   });
 
+  it('transforms arguments with a dot notation to a object', function() {
+    var args = parse('--foo', '--redis.port', '9999', '--redis.host="foo"');
+
+    expect(args.foo).to.equal(true);
+    expect(args.redis).to.be.a('object');
+    expect(args.redis.port).to.equal(9999);
+    expect(args.redis.host).to.equal('foo');
+  });
+
+  it('preforms automatic value conversion', function () {
+    expect(parse('--a', '0').a).to.equal(0);
+    expect(parse('--a', '242424').a).to.equal(242424);
+  });
+
   it('lazy parses the process args when .argv is accessed', function () {
     var args = argh.argv;
 

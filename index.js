@@ -7,10 +7,23 @@
  *
  * @param {Array} argv The arguments that need to be parsed, defaults to process.argv
  * @returns {Object} Parsed arguments.
+ * @api public
  */
 function parse(argv) {
   argv = argv || process.argv.slice(2);
 
+  /**
+   * This is where the actual parsing happens, we can use array#reduce to
+   * iterate over the arguments and change it to an object. We can easily bail
+   * out of the loop by destroying `argv` array.
+   *
+   * @param {Object} argh The object that stores the parsed arguments
+   * @param {String} option The command line flag
+   * @param {Number} index The position of the flag in argv's
+   * @param {Array} argv The argument variables
+   * @returns {Object} argh, the parsed commands
+   * @api private
+   */
   return argv.reduce(function parser(argh, option, index, argv) {
     var next = argv[index + 1]
       , value
@@ -32,12 +45,12 @@ function parse(argv) {
       //
       // --no-<key> indicates that this is a boolean value.
       //
-      argh[data[1]] = false;
+      insert(argh, data[1], false);
     } else if (data = /^--?([^=]+)=\W?([\w\-\.]+)\W?$/.exec(option)) {
       //
       // --foo="bar" and --foo=bar are alternate styles to --foo bar.
       //
-      argh[data[1]] = +data[2] || data[2];
+      insert(argh, data[1], data[2]);
     } else if (data = /^--?(.*)/.exec(option)) {
       //
       // Check if this was a bool argument
@@ -46,7 +59,7 @@ function parse(argv) {
         argh[data[1]] = value ? argv.splice(index + 1, 1)[0] === 'true' : true;
       } else {
         value = argv.splice(index + 1, 1)[0];
-        argh[data[1]] = +value || value;
+        insert(argh, data[1], value);
       }
     } else {
       //
@@ -58,6 +71,44 @@ function parse(argv) {
 
     return argh;
   }, Object.create(null));
+}
+
+/**
+ * Inserts the value in the argh object
+ *
+ * @param {Object} argh The object where we store the values
+ * @param {String} key The received command line flag
+ * @param {String} value The command line flag's value
+ * @api private
+ */
+function insert(argh, key, value) {
+  //
+  // Automatic value conversion. This makes sure we store the correct "type"
+  //
+  if ('string' === typeof value && !isNaN(+value)) value = +value;
+
+  var properties = key.split('.')
+    , position = argh;
+
+  //
+  // We don't have any deeply nested properties, so we should just bail out
+  // early enough so we don't have to do any processing
+  //
+  if (!properties.length) return argh[key] = value;
+
+  while (properties.length) {
+    var property = properties.shift();
+
+    if (properties.length) {
+      if ('object' !== typeof position[property] && !Array.isArray(position[property])) {
+        position[property] = Object.create(null);
+      }
+    } else {
+      position[property] = value;
+    }
+
+    position = position[property];
+  }
 }
 
 /**

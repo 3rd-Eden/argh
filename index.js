@@ -68,7 +68,7 @@ function parse(argv) {
  */
 Object.defineProperty(parse, 'argv', {
   get: function argv() {
-    return parse();
+    return argv.parsed || (argv.parsed = parse());
   }
 });
 

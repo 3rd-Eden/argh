@@ -37,8 +37,10 @@ console.log(argh(process.argv));
 
 #### So what is supported?
 
-- `--arg` or `-a` Is transformed to a boolean (true)
-- `--no-arg`, `--disable-arg` or `-no-a` Is transformed to a boolean (false)
+- `--arg` or `-a` Is transformed to a boolean (true) if no value is given
+- `-abc` Is transformed to multiple booleans.
+- `--no-arg`, `--disable-arg` Is transformed to a boolean (false)
+- `-no-abc`, `--disable-abc` Is transformed to multiple booleans (false)
 - `--foo bar`, `--foo="bar"`, `--foo='bar'` or `--foo=bar` Is all transformed
   to key / value pairs. Where `foo` is the key and `bar` the value
 - `--port 1111` Automatically transforms the string 1111 in a number
@@ -80,6 +82,14 @@ $ node parse.js --foo --no-bar -s --no-f
   bar: false,
   s: true,
   f: false }
+```
+
+Parsing multiple short arguments:
+
+```
+$ node parse.js -abc -no-def
+
+{ a: true, b: true, c: true, d: false, e: false, f: false }
 ```
 
 Parsing different values:

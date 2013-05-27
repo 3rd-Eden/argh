@@ -19,11 +19,23 @@ describe('argh', function () {
     return argh(args);
   }
 
-  it('transforms `--no-foo`, `--disable-foo`, `-no-foo` in to false', function () {
+  it('transforms `--no-foo`, `--disable-foo` in to false', function () {
     expect(parse('--no-foo').foo).to.equal(false);
-    expect(parse('-no-foo').foo).to.equal(false);
     expect(parse('--disable-foo').foo).to.equal(false);
-    expect(parse('-disable-foo').foo).to.equal(false);
+  });
+
+  it('transforms `-no-abc` in to multiple (false) booleans', function () {
+    var args = parse('-no-abcdef');
+
+    'abcdef'.split('').forEach(function (char) {
+      expect(args[char]).to.equal(false);
+    });
+
+    args = parse('-disable-abcdef');
+
+    'abcdef'.split('').forEach(function (char) {
+      expect(args[char]).to.equal(false);
+    });
   });
 
   it('transforms `--foo` in to true', function () {
@@ -45,7 +57,7 @@ describe('argh', function () {
     expect(parse('-f').f).to.equal(true);
   });
 
-  it('explodes a multi char short in to multiple booleans', function () {
+  it('explodes a multi char short in to multiple (true) booleans', function () {
     var args = parse('-abcdef');
 
     'abcdef'.split('').forEach(function (char) {
@@ -53,9 +65,11 @@ describe('argh', function () {
     });
   });
 
-  it('tranforms true & false in to booleans', function () {
+  it('tranforms the values true & false in to booleans', function () {
     expect(parse('--foo', 'true').foo).to.equal(true);
     expect(parse('--foo', 'false').foo).to.equal(false);
+    expect(parse('--foo="false"').foo).to.equal(false);
+    expect(parse('--foo="true"').foo).to.equal(true);
   });
 
   it('tranforms numbers in to numbers', function () {

@@ -34,8 +34,10 @@ function parse(argv) {
     // store everything in a "special" key.
     //
     if (option === '--') {
+      //
       // By splicing the argv array, we also cancel the reduce as there are no
       // more options to parse.
+      //
       argh.argv = argh.argv || [];
       argh.argv = argh.argv.concat(argv.splice(index + 1));
       return argh;
@@ -45,22 +47,28 @@ function parse(argv) {
       //
       // --no-<key> indicates that this is a boolean value.
       //
-      insert(argh, data[1], false);
+      if (option.charAt(1) === '-') {
+        insert(argh, data[1], false);
+      } else {
+        data[1].split('').forEach(function short(char) {
+          insert(argh, char, false);
+        });
+      }
     } else if (data = /^-(?!-)(.*)/.exec(option)) {
       data[1].split('').forEach(function short(char) {
         insert(argh, char, true);
       });
-    } else if (data = /^--?([^=]+)=\W?([\w\-\.]+)\W?$/.exec(option)) {
+    } else if (data = /^--([^=]+)=\W?([\w\-\.]+)\W?$/.exec(option)) {
       //
       // --foo="bar" and --foo=bar are alternate styles to --foo bar.
       //
       insert(argh, data[1], data[2]);
-    } else if (data = /^--?(.*)/.exec(option)) {
+    } else if (data = /^--(.*)/.exec(option)) {
       //
       // Check if this was a bool argument
       //
       if (!next || next.charAt(0) === '-' || (value = /^true|false$/.test(next))) {
-        argh[data[1]] = value ? argv.splice(index + 1, 1)[0] === 'true' : true;
+        insert(argh, data[1], value ? argv.splice(index + 1, 1)[0] : true);
       } else {
         value = argv.splice(index + 1, 1)[0];
         insert(argh, data[1], value);
@@ -90,6 +98,7 @@ function insert(argh, key, value) {
   // Automatic value conversion. This makes sure we store the correct "type"
   //
   if ('string' === typeof value && !isNaN(+value)) value = +value;
+  if (value === 'true' || value === 'false') value = value === 'true';
 
   var properties = key.split('.')
     , position = argh;

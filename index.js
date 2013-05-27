@@ -46,6 +46,10 @@ function parse(argv) {
       // --no-<key> indicates that this is a boolean value.
       //
       insert(argh, data[1], false);
+    } else if (data = /^-(?!-)(.*)/.exec(option)) {
+      data[1].split('').forEach(function short(char) {
+        insert(argh, char, true);
+      });
     } else if (data = /^--?([^=]+)=\W?([\w\-\.]+)\W?$/.exec(option)) {
       //
       // --foo="bar" and --foo=bar are alternate styles to --foo bar.

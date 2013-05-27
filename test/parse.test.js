@@ -26,33 +26,36 @@ describe('argh', function () {
     expect(parse('-disable-foo').foo).to.equal(false);
   });
 
-  it('transforms `--foo`, `-foo` in to true', function () {
+  it('transforms `--foo` in to true', function () {
     expect(parse('--foo').foo).to.equal(true);
-    expect(parse('-foo').foo).to.equal(true);
   });
 
   it('transforms `--foo="stuff"`, `--foo=\'stuff\'` and `--foo=stuff` in k/v pairs', function () {
     expect(parse('--foo="stuff"').foo).to.equal('stuff');
     expect(parse("--foo='stuff'").foo).to.equal('stuff');
     expect(parse('--foo=stuff').foo).to.equal('stuff');
-    expect(parse('-foo="stuff"').foo).to.equal('stuff');
-    expect(parse("-foo='stuff'").foo).to.equal('stuff');
-    expect(parse('-foo=stuff').foo).to.equal('stuff');
   });
 
   it('transforms long key/values', function () {
     expect(parse('--foo', 'bar').foo).to.equal('bar');
   });
 
-  it('transforms short key/values', function () {
-    expect(parse('-F', 'bar').F).to.equal('bar');
+  it('transforms short in to booleans', function () {
+    expect(parse('-F').F).to.equal(true);
+    expect(parse('-f').f).to.equal(true);
+  });
+
+  it('explodes a multi char short in to multiple booleans', function () {
+    var args = parse('-abcdef');
+
+    'abcdef'.split('').forEach(function (char) {
+      expect(args[char]).to.equal(true);
+    });
   });
 
   it('tranforms true & false in to booleans', function () {
     expect(parse('--foo', 'true').foo).to.equal(true);
-    expect(parse('-f', 'true').f).to.equal(true);
     expect(parse('--foo', 'false').foo).to.equal(false);
-    expect(parse('-f', 'false').f).to.equal(false);
   });
 
   it('tranforms numbers in to numbers', function () {
@@ -76,14 +79,14 @@ describe('argh', function () {
   });
 
   it('correctly parses multiple arguments', function () {
-    var args = parse('--foo', 'bar', '-f', 'bar', '--bar', '111', '--bool', '-m', 'false', '--', 'args', 'lol');
+    var args = parse('--foo', 'bar', '--f', 'bar', '--bar', '111', '--bool', '-m', 'false', '--', 'args', 'lol');
 
     expect(args.foo).to.equal('bar');
     expect(args.f).to.equal('bar');
     expect(args.bar).to.equal(111);
     expect(args.bool).to.equal(true);
-    expect(args.m).to.equal(false);
-    expect(args.argv).to.deep.equal(['args', 'lol']);
+    expect(args.m).to.equal(true);
+    expect(args.argv).to.deep.equal(['false', 'args', 'lol']);
   });
 
   it('transforms arguments with a dot notation to a object', function() {

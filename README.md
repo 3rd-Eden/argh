@@ -90,6 +90,14 @@ $ node parse.js --awesome true --port 1111
 { awesome: true, port: 1111 }
 ```
 
+Combining arguments in to an object:
+
+```
+$node parse.js --redis.port 8080 --redis.host localhost
+
+{ redis: { port: 8080, host: 'localhost' }
+```
+
 Handling rest arguments:
 
 ```

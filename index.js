@@ -47,31 +47,23 @@ function parse(argv) {
       //
       // --no-<key> indicates that this is a boolean value.
       //
-      if (option.charAt(1) === '-') {
-        insert(argh, data[1], false);
-      } else {
-        data[1].split('').forEach(function short(char) {
-          insert(argh, char, false);
-        });
-      }
+      insert(argh, data[1], false, option);
     } else if (data = /^-(?!-)(.*)/.exec(option)) {
-      data[1].split('').forEach(function short(char) {
-        insert(argh, char, true);
-      });
+      insert(argh, data[1], true, option);
     } else if (data = /^--([^=]+)=\W?([\w\-\.]+)\W?$/.exec(option)) {
       //
       // --foo="bar" and --foo=bar are alternate styles to --foo bar.
       //
-      insert(argh, data[1], data[2]);
+      insert(argh, data[1], data[2], option);
     } else if (data = /^--(.*)/.exec(option)) {
       //
       // Check if this was a bool argument
       //
       if (!next || next.charAt(0) === '-' || (value = /^true|false$/.test(next))) {
-        insert(argh, data[1], value ? argv.splice(index + 1, 1)[0] : true);
+        insert(argh, data[1], value ? argv.splice(index + 1, 1)[0] : true, option);
       } else {
         value = argv.splice(index + 1, 1)[0];
-        insert(argh, data[1], value);
+        insert(argh, data[1], value, option);
       }
     } else {
       //
@@ -91,17 +83,23 @@ function parse(argv) {
  * @param {Object} argh The object where we store the values
  * @param {String} key The received command line flag
  * @param {String} value The command line flag's value
+ * @param {String} option The actual option
  * @api private
  */
-function insert(argh, key, value) {
+function insert(argh, key, value, option) {
   //
   // Automatic value conversion. This makes sure we store the correct "type"
   //
   if ('string' === typeof value && !isNaN(+value)) value = +value;
   if (value === 'true' || value === 'false') value = value === 'true';
 
-  var properties = key.split('.')
+  var single = option.charAt(1) !== '-'
+    , properties = key.split('.')
     , position = argh;
+
+  if (single && key.length > 1) return key.split('').forEach(function short(char) {
+    insert(argh, char, value, option);
+  });
 
   //
   // We don't have any deeply nested properties, so we should just bail out

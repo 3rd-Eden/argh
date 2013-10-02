@@ -103,13 +103,20 @@ describe('argh', function () {
     expect(args.argv).to.deep.equal(['false', 'args', 'lol']);
   });
 
-  it('transforms arguments with a dot notation to a object', function() {
+  it('transforms arguments with a dot notation to a object', function () {
     var args = parse('--foo', '--redis.port', '9999', '--redis.host="foo"');
 
     expect(args.foo).to.equal(true);
     expect(args.redis).to.be.a('object');
     expect(args.redis.port).to.equal(9999);
     expect(args.redis.host).to.equal('foo');
+  });
+
+  it('correctly parses arguments with filenames', function () {
+    var args = parse('--realFilePath=some/path/file.js', 'some/path/file2.js');
+
+    expect(args.realFilePath).to.equal('some/path/file.js');
+    expect(args.argv).to.deep.equal(['some/path/file2.js']);
   });
 
   it('preforms automatic value conversion', function () {

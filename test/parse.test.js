@@ -112,6 +112,14 @@ describe('argh', function () {
     expect(args.redis.host).to.equal('foo');
   });
 
+  it('correctly parses arguments with a + in the value', function () {
+    var args = parse('--my="friend+you"', '--me=friend+me', '--your', 'friend+me');
+
+    expect(args.my).to.equal('friend+you');
+    expect(args.me).to.equal('friend+me');
+    expect(args.your).to.equal('friend+me');
+  });
+
   it('correctly parses arguments with filenames', function () {
     var args = parse('--realFilePath=some/path/file.js', 'some/path/file2.js');
 

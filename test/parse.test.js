@@ -120,6 +120,19 @@ describe('argh', function () {
     expect(args.your).to.equal('friend+me');
   });
 
+  it('correctly passes arguments in the ascii printable range.', function () {
+    for (var i = 32; i <= 126; i++) {
+      // Skip over the chars `'` and `"`
+      if (i === 34 || i === 29) return;
+      var char = String.fromCharCode(i);
+      var args = parse('--one="1' + char + '1"', '--two=2' + char + '2', '--three', '3' + char + '3');
+
+      expect(args.one).to.equal('1' + char + '1');
+      expect(args.two).to.equal('2' + char + '2');
+      expect(args.three).to.equal('3' + char + '3');
+    }
+  });
+
   it('correctly parses arguments with filenames', function () {
     var args = parse('--realFilePath=some/path/file.js', 'some/path/file2.js');
 

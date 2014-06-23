@@ -1,11 +1,8 @@
 describe('argh', function () {
   'use strict';
 
-  var argh = require('../')
-    , chai = require('chai')
-    , expect = chai.expect;
-
-  chai.Assertion.includeStack = true;
+  var expect = require('assume')
+    , argh = require('../');
 
   /**
    * Helper function so we don't have to create arrays for our tests, but we can

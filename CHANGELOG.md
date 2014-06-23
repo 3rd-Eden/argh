@@ -1,3 +1,6 @@
+### 0.1.2
+- Allow `+` to be used within arguments. #8
+
 ### 0.1.1
 - Fixed a bug where long arguments with `/` file slashes were ignored.
 

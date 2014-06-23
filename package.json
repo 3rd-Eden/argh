@@ -1,6 +1,6 @@
 {
   "name": "argh",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "light weight option/argv parser for node, it only parses options, nothing more then that.",
   "main": "index.js",
   "directories": {

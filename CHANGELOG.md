@@ -1,3 +1,6 @@
+### 0.1.3
+- Allow every printable ASCII char to be used within arguments. #9
+
 ### 0.1.2
 - Allow `+` to be used within arguments. #8
 

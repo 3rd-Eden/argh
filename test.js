@@ -2,7 +2,7 @@ describe('argh', function () {
   'use strict';
 
   var expect = require('assume')
-    , argh = require('../');
+    , argh = require('./');
 
   /**
    * Helper function so we don't have to create arrays for our tests, but we can
@@ -151,6 +151,6 @@ describe('argh', function () {
     //
     expect(args.reporter).to.equal('spec');
     expect(args.ui).to.equal('bdd');
-    expect(args.argv).to.deep.equal(['test/parse.test.js']);
+    expect(args.argv).to.deep.equal(['test.js']);
   });
 });

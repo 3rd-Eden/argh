@@ -50,7 +50,7 @@ function parse(argv) {
       insert(argh, data[1], false, option);
     } else if (data = /^-(?!-)(.*)/.exec(option)) {
       insert(argh, data[1], true, option);
-    } else if (data = /^--([^=]+)=\W?([\s!#$%&\x28-\x7e]+)\W?$/.exec(option)) {
+    } else if (data = /^--([^=]+)=["']?([\s!#$%&\x28-\x7e]+)["']?$/.exec(option)) {
       //
       // --foo="bar" and --foo=bar are alternate styles to --foo bar.
       //

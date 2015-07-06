@@ -45,6 +45,12 @@ describe('argh', function () {
     expect(parse('--foo=stuff').foo).to.equal('stuff');
   });
 
+  it('transforms `--foo="./stuff"`, `--foo=\'./stuff\'` and `--foo=./stuff` in k/v pairs', function () {
+    expect(parse('--foo="./stuff"').foo).to.equal('./stuff');
+    expect(parse("--foo='./stuff'").foo).to.equal('./stuff');
+    expect(parse('--foo=./stuff').foo).to.equal('./stuff');
+  });
+
   it('transforms long key/values', function () {
     expect(parse('--foo', 'bar').foo).to.equal('bar');
   });

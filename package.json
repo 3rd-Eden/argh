@@ -30,9 +30,9 @@
   "author": "Arnout Kazemier <opensource@observe.it>",
   "license": "MIT",
   "devDependencies": {
-    "assume": "0.0.x",
+    "assume": "1.2.x",
     "istanbul": "0.3.x",
-    "mocha": "2.0.x",
-    "pre-commit": "0.0.x"
+    "mocha": "2.2.x",
+    "pre-commit": "1.0.x"
   }
 }

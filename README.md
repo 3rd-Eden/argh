@@ -127,6 +127,14 @@ $ node parse.js --foo 111 bar unkown --hello world BUUURRRRRNN
   hello: 'world' }
 ```
 
+Parsing duplicate flags:
+
+```
+$ node parse.js --item foo --item bar --item baz
+
+{ item: [ 'foo', 'bar', 'baz' ] }
+```
+
 ## License
 
 [MIT](LICENSE)

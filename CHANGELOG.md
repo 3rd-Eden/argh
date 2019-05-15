@@ -1,3 +1,5 @@
+# CHANGELOG
+
 ### 0.1.3
 - Allow every printable ASCII char to be used within arguments. #9
 

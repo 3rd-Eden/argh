@@ -109,13 +109,19 @@ function insert(argh, key, value, option) {
 
   while (properties.length) {
     var property = properties.shift();
+    var current = position[property];
 
     if (properties.length) {
-      if ('object' !== typeof position[property] && !Array.isArray(position[property])) {
+      if ('object' !== typeof current && !Array.isArray(current)) {
         position[property] = Object.create(null);
       }
     } else {
-      position[property] = value;
+      if (property in position) {
+        if (Array.isArray(current)) current.push(value);
+        else position[property] = [current, value];
+      } else {
+        position[property] = value;
+      }
     }
 
     position = position[property];

@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:observing/argh.git"
+    "url": "git@github.com:3rd-Eden/argh.git"
   },
   "keywords": [
     "argument",
@@ -27,7 +27,7 @@
     "command",
     "command-line"
   ],
-  "author": "Arnout Kazemier <opensource@observe.it>",
+  "author": "Arnout Kazemier",
   "license": "MIT",
   "devDependencies": {
     "assume": "~2.0.0",

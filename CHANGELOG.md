@@ -1,5 +1,8 @@
 # CHANGELOG
 
+### 1.0.0
+- [breaking] Duplicate flags are now consolidated into an array of values.
+
 ### 0.1.3
 - Allow every printable ASCII char to be used within arguments. #9
 

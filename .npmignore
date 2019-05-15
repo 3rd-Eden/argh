@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+coverage
+example
+test.js
+.travis.yml
+*.tgz
